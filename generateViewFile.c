@@ -1,36 +1,13 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include "header.h"
 
-#define STR_LEN 100
-
-int i;
-FILE *arq;
-char linha[STR_LEN];
-char *result;
-
-struct state {
-    char name[STR_LEN];
-    int isFinal;
-    int isInitial;
-};
-
-struct transition {
-    struct state *state1;
-    struct state *state2;
-    char symbol[STR_LEN];
-};
-
-int main(void)
+void generateViewFile(char *inputFile, char *outputFile)
 {
-
-    arq = fopen("afd.txt", "rt");
+    arq = fopen(inputFile, "rt");
 
     if (arq == NULL) {
-        return 1;
+        printf("Erro ao abrir arquivo.");
+        exit(EXIT_FAILURE);
     }
-
-    // getting state names
 
     int statesCount =  atoi(fgets(linha, STR_LEN, arq));
 
@@ -38,6 +15,7 @@ int main(void)
 
     for (int i=0; i<statesCount; i++) {
         char *name = fgets(linha, STR_LEN, arq);
+        strtok(name, "\n");
         strcpy(states[i].name, name);
         states[i].isInitial = 0;
         states[i].isFinal = 0;
@@ -51,6 +29,7 @@ int main(void)
 
     for (int i=0; i<symbolCount; i++) {
         char *symbol = fgets(linha, STR_LEN, arq);
+        strtok(symbol, "\n");
         strcpy(alphabet[i], symbol);
     }
     
@@ -106,13 +85,18 @@ int main(void)
             j++;
             x++;
         }
+        strtok(state1, "\n");
+        strtok(state2, "\n");
 
         struct transition lineTransition;
 
         strcpy(lineTransition.symbol, symbol);
 
         for (int y=0; y<statesCount; y++) {
-            if (strcmp(states[y].name, state1) == 10) {
+            printf("%d\n", strcmp(states[y].name, state1));
+            printf("%s\n", states[y].name);
+            printf("%s\n", state1);
+            if (strcmp(states[y].name, state1) == 0) {
                 lineTransition.state1 = &states[y];
             }
         }
@@ -127,7 +111,6 @@ int main(void)
     }
     
     // getting initial state and final states
-
 
     char *line = fgets(linha, STR_LEN, arq);
     char initialState[STR_LEN];
@@ -156,25 +139,7 @@ int main(void)
         }
     }
 
-    // printing items
-
-    printf("Estados:\n");
-    for (int i=0; i<statesCount; i++) {
-        printf("Estado %d\n", i+1);
-        printf("Nome: %s\n", states[i].name);
-        printf("Inicial: %d\n", states[i].isInitial);
-        printf("Final: %d\n", states[i].isFinal);
-        printf("--------\n");
-    }
-
-    printf("Transicoes:\n");
-    for (int i=0; i<transitionCount; i++) {
-        printf("Transicao %d\n", i+1);
-        printf("Estado 1: %s\n", transitions[i].state1->name);
-        printf("Símbolo: %s\n", transitions[i].symbol);
-        printf("Estado 2: %s\n", transitions[i].state2->name);
-        printf("--------\n");
-    }
+    render(outputFile, transitions, transitionCount);
 
     fclose(arq);
 }

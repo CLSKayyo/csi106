@@ -1,18 +1,9 @@
- # the compiler: gcc for C program, define as g++ for C++
-CC = gcc
+all: afdtool
+	make clean
+	make afdtool
 
-# compiler flags:
-#  -g    adds debugging information to the executable file
-#  -Wall turns on most, but not all, compiler warnings
-CFLAGS  = -g -Wall
-
-# the build target executable:
-TARGET = afdtool
-
-all: $(TARGET)
-
-$(TARGET): $(TARGET).c
-	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).c
+afdtool: main.c
+	gcc -g -Wall -o afdtool main.c
 
 clean:
-	$(RM) $(TARGET)
+	rm -rf afdtool
