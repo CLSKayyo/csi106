@@ -2,6 +2,7 @@
 
 void generateViewFile(char *inputFile, char *outputFile)
 {
+   
     arq = fopen(inputFile, "rt");
 
     if (arq == NULL) {

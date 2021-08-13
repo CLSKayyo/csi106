@@ -1,6 +1,8 @@
 #include "header.h"
 
-void render(char *outputFile, struct transition *transitions, int transitionCount)
+// ALTERAR FUTURAMENTE
+
+void renderDot(char *outputFile)
 {
 
     FILE *output = fopen(outputFile, "w");
@@ -15,31 +17,33 @@ void render(char *outputFile, struct transition *transitions, int transitionCoun
     fputs("node [shape = doublecircle];\n", output);
     
     char lastUsedState[STR_LEN];
-    for (int i=0; i<transitionCount; i++) {
+    for (int i=0; i<afd.transitionsCount; i++) {
         if (
-            transitions[i].state1->isFinal &&
-            strcmp(transitions[i].state1->name, lastUsedState)
+            afd.transitions[i].state1->isFinal &&
+            strcmp(afd.transitions[i].state1->name, lastUsedState)
         ) {
             fprintf(
                 output, " %s",
-                transitions[i].state1->name
+                afd.transitions[i].state1->name
             );
-            strcpy(lastUsedState, transitions[i].state1->name);
+            strcpy(lastUsedState, afd.transitions[i].state1->name);
         }
     }
 
     fputs(";\nnode [shape = circle];\n", output);
-    for (int i=0; i<transitionCount; i++) {
+    
+    for (int i=0; i<afd.transitionsCount; i++) {
         fprintf(
             output, "%s -> %s [label = \"%s\"];\n",
-            transitions[i].state1->name,
-            transitions[i].state2->name,
-            transitions[i].symbol
+            afd.transitions[i].state1->name,
+            afd.transitions[i].state2->name,
+            afd.transitions[i].symbol
         );
     }
+
     fputs("}\n", output);
 
     fclose(output);
 
-    printf("Arquivo criado.");
+    printf("Arquivo %s criado com sucesso.\n", outputFile);
 }
