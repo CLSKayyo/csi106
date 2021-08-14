@@ -31,13 +31,14 @@ void renderDot(char *outputFile)
     }
 
     fputs(";\nnode [shape = circle];\n", output);
-    
-    for (int i=0; i<afd.transitionsCount; i++) {
+
+    for (int j=0; j<afd.transitionsCount; j++) {
         fprintf(
-            output, "%s -> %s [label = \"%s\"];\n",
+            output,
+            "%s -> %s [label = \"%s\"]\n",
             afd.transitions[i].state1->name,
             afd.transitions[i].state2->name,
-            afd.transitions[i].symbol
+            afd.transitions[i]. symbol
         );
     }
 

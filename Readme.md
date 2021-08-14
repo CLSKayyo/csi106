@@ -6,7 +6,3 @@ Instruções para utilização:
 	- afdtool --dot /arquivoDeEntrada/ --output /arquivoDeSaida/ 
 - Complemento:
 	- afdtool --complemento /arquivoDeEntrada/ --output /arquivoDeSaida/ 
-
-
-TO-DO:
-- Alterar dunção renderDot, erro Segmentation Fault
