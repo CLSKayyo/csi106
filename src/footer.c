@@ -1,4 +1,6 @@
+#include "populateAFDFromFile.c"
+#include "afdFunctions.c"
+#include "dotFunctions.c"
+#include "txtFunctions.c"
 #include "renderDot.c"
 #include "renderTxt.c"
-#include "populateAFDFromFile.c"
-#include "createComplement.c"

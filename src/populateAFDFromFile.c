@@ -4,10 +4,6 @@ void populateAFDFromFile(char *inputFile)
 {
     FILE *input = fopen(inputFile, "rt");
 
-    afd.statesCount = 0;
-    afd.symbolsCount = 0;
-    afd.transitionsCount = 0;
-
     char linha[STR_LEN];
 
     if (input == NULL) {
@@ -16,37 +12,33 @@ void populateAFDFromFile(char *inputFile)
     }
 
     int statesCount =  atoi(fgets(linha, STR_LEN, input));
+    afd.statesCount = statesCount;
 
-    afd.states = (struct _state*) malloc(statesCount*sizeof(struct _state));
-
+    _state *state = NULL;
     for (int i=0; i<statesCount; i++) {
         char *name = fgets(linha, STR_LEN, input);
         strtok(name, "\n");
-        strcpy(afd.states[i].name, name);
-        afd.states[i].isInitial = 0;
-        afd.states[i].isFinal = 0;
+        state = insertNewState(state, name);
     }
 
-    afd.statesCount = statesCount;
+    afd.state = state;
 
     int symbolCount = atoi(fgets(linha, STR_LEN, input));
-
-    afd.alphabet = (char**) malloc(symbolCount*sizeof(char));
-
-    for (int i=0; i<symbolCount; i++) {
-        char *symbol = fgets(linha, STR_LEN, input);
-        strtok(symbol, "\n");
-        afd.alphabet[i] = (char*) malloc(sizeof(char));
-        strcpy(afd.alphabet[i], symbol);
-    }
-
     afd.symbolsCount = symbolCount;
 
-    int transitionCount = atoi(fgets(linha, STR_LEN, input));
+    _symbol *symbol = NULL;
+    for (int i=0; i<symbolCount; i++) {
+        char *content = fgets(linha, STR_LEN, input);
+        strtok(content, "\n");
+        symbol = insertNewSymbol(symbol, content);
+    }
 
+    afd.alphabet = symbol;
+
+    int transitionCount = atoi(fgets(linha, STR_LEN, input));
     afd.transitionsCount = transitionCount;
 
-    struct _transition transitions[transitionCount];
+    _transition *transition = NULL;
     for (int i=0; i<transitionCount; i++) {
         char *newLine = fgets(linha, STR_LEN, input); 
         char line[STR_LEN];
@@ -54,7 +46,7 @@ void populateAFDFromFile(char *inputFile)
 
         char state1[STR_LEN];
         char state2[STR_LEN];
-        char symbol[STR_LEN];
+        char symbolContent[STR_LEN];
 
         int x = 0;
         int y = 0;
@@ -79,8 +71,8 @@ void populateAFDFromFile(char *inputFile)
                 break;
             }
 
-            symbol[y] = line[x];
-            symbol[y+1] = 0;
+            symbolContent[y] = line[x];
+            symbolContent[y+1] = 0;
             x++;
             y++;
         }
@@ -102,56 +94,29 @@ void populateAFDFromFile(char *inputFile)
         strtok(state1, "\n");
         strtok(state2, "\n");
 
-        struct _transition transition;
-
-        strcpy(transition.symbol, symbol);
-
-        for (int j=0; j<statesCount; j++) {
-            if (strcmp(afd.states[j].name, state1) == 0) {
-                transition.state1 = &afd.states[j];
-                break;
-            }
-        }
-
-        for (int j=0; j<statesCount; j++) {
-            if (strcmp(afd.states[j].name, state2) == 0) {
-                transition.state2 = &afd.states[j];
-                break;
-            }
-        }
-
-        transitions[i] = transition;
+        transition = insertNewTransition(transition, state1, state2, symbolContent);
     }
 
-    afd.transitions = transitions;
+    afd.transition = transition;
 
     char *line = fgets(linha, STR_LEN, input);
     char initialState[STR_LEN];
-
     strcpy(initialState, line);
-
-    for (int i=0; i<statesCount; i++) {
-        if (strcmp(afd.states[i].name, initialState) == 0) {
-            afd.states[i].isInitial = 1;
-            break;
-        }
-    }
+    strtok(initialState, "\n");
+    findStateByName(initialState, afd.state)->isInitial = 1;
 
     int finalStatesCount = atoi(fgets(linha, STR_LEN, input));
 
     for (int i=0; i<finalStatesCount; i++) {
         char *newLine = fgets(linha, STR_LEN, input);
         char finalState[STR_LEN];
-
         strcpy(finalState, newLine);
+        strtok(finalState, "\n");
 
-        for (int j=0; j<statesCount; j++) {
-            if (strcmp(afd.states[j].name, finalState) == 0) {
-                afd.states[j].isFinal = 1;
-            }
-        }
+        findStateByName(finalState, afd.state)->isFinal = 1;
     }
 
     fclose(input);
+
     printf("AFD criado com sucesso a partir do arquivo %s.\n", inputFile);
 }

@@ -1,10 +1,7 @@
 #include "header.h"
 
-// ALTERAR FUTURAMENTE
-
 void renderDot(char *outputFile)
 {
-
     FILE *output = fopen(outputFile, "w");
 
     if (output == NULL) {
@@ -13,34 +10,13 @@ void renderDot(char *outputFile)
     }
 
     fputs("digraph finite_state_machine {\n", output);
-
     fputs("node [shape = doublecircle];\n", output);
-    
-    char lastUsedState[STR_LEN];
-    for (int i=0; i<afd.transitionsCount; i++) {
-        if (
-            afd.transitions[i].state1->isFinal &&
-            strcmp(afd.transitions[i].state1->name, lastUsedState)
-        ) {
-            fprintf(
-                output, " %s",
-                afd.transitions[i].state1->name
-            );
-            strcpy(lastUsedState, afd.transitions[i].state1->name);
-        }
-    }
+
+    printDotFinalStates(afd.state, output);
 
     fputs(";\nnode [shape = circle];\n", output);
 
-    for (int j=0; j<afd.transitionsCount; j++) {
-        fprintf(
-            output,
-            "%s -> %s [label = \"%s\"]\n",
-            afd.transitions[i].state1->name,
-            afd.transitions[i].state2->name,
-            afd.transitions[i]. symbol
-        );
-    }
+    printDotTransitions(afd.transition, output);
 
     fputs("}\n", output);
 

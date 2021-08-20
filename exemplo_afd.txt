@@ -1,14 +1,20 @@
-2
-par
-impar
+4
+pp
+pi
+ip
+ii
 2
 0
 1
-4
-par 0 impar
-par 1 impar
-impar 0 par
-impar 1 par
-par
+8
+pp 0 ip
+pp 1 pi
+pi 0 ii
+pi 1 pp
+ip 0 pp
+ip 1 ii
+ii 0 pi
+ii 1 ip
+pp
 1
-par
+pp

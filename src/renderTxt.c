@@ -15,13 +15,7 @@ void renderTxt(char *outputFile)
         afd.statesCount
     );
 
-    for (int i=0; i<afd.statesCount; i++) {
-        fprintf(
-            output,
-            "%s\n",
-            afd.states[i].name
-        );
-    }
+    printTxtStateNames(afd.state, output);
 
     fprintf(
         output,
@@ -29,13 +23,7 @@ void renderTxt(char *outputFile)
         afd.symbolsCount
     );
 
-    for (int i=0; i<afd.symbolsCount; i++) {
-        fprintf(
-            output,
-            "%s\n",
-            afd.alphabet[i]
-        );
-    }
+    printTxtSymbols(afd.alphabet, output);
 
     fprintf(
         output,
@@ -43,49 +31,17 @@ void renderTxt(char *outputFile)
         afd.transitionsCount
     );
 
-    for (int i=0; i<afd.transitionsCount; i++) {
-        fprintf(
-            output,
-            "%s %s %s\n",
-            afd.transitions[i].state1->name,
-            afd.transitions[i].symbol,
-            afd.transitions[i].state2->name
-        );
-    }
+    printTxtTransitions(afd.transition, output);
 
-    for (int i=0; i<afd.statesCount; i++) {
-        if (afd.states[i].isInitial) {
-            fprintf(
-                output,
-                "%s\n",
-                afd.states[i].name
-            );
-        }
-    }
-
-    int finalStatesCount = 0;
-
-    for (int i=0; i<afd.statesCount; i++) {
-        if (afd.states[i].isFinal) {
-            finalStatesCount++;
-        }
-    }
+    printTxtInitialStates(afd.state, output);
 
     fprintf(
         output,
         "%d\n",
-        finalStatesCount
+        countFinalStates(afd.state, 0)
     );
 
-    for (int i=0; i<afd.statesCount; i++) {
-        if (afd.states[i].isFinal) {
-            fprintf(
-                output,
-                "%s\n",
-                afd.states[i].name
-            );
-        }
-    }
+    printTxtFinalStates(afd.state, output);
 
     fclose(output);
     
