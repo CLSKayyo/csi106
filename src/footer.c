@@ -1,4 +1,5 @@
 #include "populateAFDFromFile.c"
+#include "recognizeWords.c"
 #include "afdFunctions.c"
 #include "dotFunctions.c"
 #include "txtFunctions.c"

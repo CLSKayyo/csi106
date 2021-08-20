@@ -1,0 +1,22 @@
+4
+ii
+ip
+pi
+pp
+2
+1
+0
+8
+ii 1 ip
+ii 0 pi
+ip 1 ii
+ip 0 pp
+pi 1 pp
+pi 0 ii
+pp 1 pi
+pp 0 ip
+pp
+3
+ii
+ip
+pi

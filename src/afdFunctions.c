@@ -7,6 +7,13 @@ _state* findStateByName(char *name, _state *state)
     return findStateByName(name, state->next);
 }
 
+_state* findInitialState(_state *state)
+{
+    if (state == NULL) return NULL;
+    if (state->isInitial) return state;
+    return findInitialState(state->next);
+}
+
 _symbol* findSymbol(char *content, _symbol *symbol) 
 {
     if (symbol == NULL) return NULL;
@@ -50,6 +57,23 @@ _transition* insertNewTransition(
     newTransition->next = transition;
 
     return newTransition;
+}
+
+_transition* findTransitionByStateAndSymbol(_transition *transition, _state *state, char symbol)
+{
+    if (transition == NULL) return NULL;
+    if (
+        transition->state1 == state && 
+        transition->symbol->content[0] == symbol
+    ) return transition;
+    return findTransitionByStateAndSymbol(transition->next, state, symbol);
+}
+
+_state* recognizeSymbol(_state *state, char symbol)
+{
+    _transition *transition = findTransitionByStateAndSymbol(afd.transition, state, symbol);
+    if (transition == NULL) return NULL;
+    return transition->state2;
 }
 
 void printStatesName(_state *state)

@@ -1,0 +1,13 @@
+digraph finite_state_machine {
+node [shape = doublecircle];
+ pp;
+node [shape = circle];
+ii -> ip [label = "1"]
+ii -> pi [label = "0"]
+ip -> ii [label = "1"]
+ip -> pp [label = "0"]
+pi -> pp [label = "1"]
+pi -> ii [label = "0"]
+pp -> pi [label = "1"]
+pp -> ip [label = "0"]
+}

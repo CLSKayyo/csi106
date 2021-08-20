@@ -42,6 +42,7 @@ struct _afd {
 } afd;
 
 _state* findStateByName(char *name, _state *state);
+_state* findInitialState(_state *state);
 _symbol* findSymbol(char *content, _symbol *symbol);
 _state* insertNewState(_state *state, char *name);
 _symbol* insertNewSymbol(_symbol *symbol, char *content);
@@ -54,6 +55,8 @@ _transition* insertNewTransition(
 void printStatesName(_state *state);
 void printSymbols(_symbol *symbol);
 void printTransitions(_transition *transition);
+_state* recognizeSymbol(_state *state, char symbol);
+_transition* findTransitionByStateAndSymbol(_transition *transition, _state *state, char symbol);
 
 void createComplement(_state *state);
 
@@ -68,6 +71,7 @@ void printTxtFinalStates(_state *state, FILE *output);
 int countFinalStates(_state *state, int count);
 
 void populateAFDFromFile(char *inputFile);
+void recognizeWords(char *inputFile, char *outputFile);
 
 void renderDot(char *outputFile);
 void renderTxt(char *outputFile);

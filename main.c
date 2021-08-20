@@ -16,6 +16,12 @@ int main(int argc, char *argv[])
             return 0;
         }
 
+        if (strcmp(argv[1], "--reconhecer") == 0) {
+            populateAFDFromFile(argv[2]);
+            recognizeWords(argv[3], argv[5]);
+            return 0;
+        }
+
         printf("Comando %s não reconhecido.\n", argv[1]);
         return 0;
     }
