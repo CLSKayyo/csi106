@@ -63,16 +63,3 @@ void printTxtFinalStates(_state *state, FILE *output)
         printTxtFinalStates(state->next, output);
     }
 }
-
-int countFinalStates(_state *state, int count)
-{
-    if (state == NULL) {
-        return count;
-    }
-
-    if (state->isFinal) {
-        count++;
-    }
-
-    return countFinalStates(state->next, count);
-}

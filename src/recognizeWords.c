@@ -35,9 +35,12 @@ void recognizeWords(char *inputFile, char *outputFile)
     while (fgets(linha, STR_LEN, input)) {
         int isWordRecognized = tryRecognizeWord(linha);
 
-        printf("%d\n", isWordRecognized);
+        fprintf(output, "%d\n", isWordRecognized);
     }
+
 
     fclose(input);
     fclose(output);
+
+    printf("Arquivo %s criado com sucesso.\n", outputFile);
 }

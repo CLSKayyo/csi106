@@ -1,6 +1,6 @@
 #include "header.h"
 
-void populateAFDFromFile(char *inputFile)
+void populateAfdFromFile(char *inputFile)
 {
     FILE *input = fopen(inputFile, "rt");
 
