@@ -12,7 +12,7 @@ Instruções para utilização:
 	- ./afdtool --minimizacao /arquivoDeEntrada/ --output /arquivoDeSaida/
 
 Exemplos:
-	- ./afdtool --dot afd_entrada.txt --output afd-visualizacao.dot
-	- ./afdtool --complemento afd_entrada.txt --output afd-complemento.txt
-	- ./afdtool --reconhecer afd_entrada.txt palavras.txt --output palavras-reconhecidas.txt
-	- ./afdtool --minimizacao afd_entrada.txt --output afd-minimizado.txt
+- ./afdtool --dot afd_entrada.txt --output afd-visualizacao.dot
+- ./afdtool --complemento afd_entrada.txt --output afd-complemento.txt
+- ./afdtool --reconhecer afd_entrada.txt palavras.txt --output palavras-reconhecidas.txt
+- ./afdtool --minimizacao afd_entrada.txt --output afd-minimizado.txt
